@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import useSWR from 'swr'
 import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button';
 import CameraIcon from '@material-ui/icons/PhotoCamera';
@@ -13,30 +14,20 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Link from '@material-ui/core/Link';
-
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Copyright from '../src/Copyright';
+import fetch from 'unfetch';
 
 const useStyles = makeStyles((theme) => ({
   icon: {
     marginRight: theme.spacing(2),
   },
-  heroContent: {
-    backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(8, 0, 6),
+  loading: {
+    textAlign: 'center',
+    margin: theme.spacing(2)
   },
   heroButtons: {
-    marginTop: theme.spacing(4),
+    marginTop: theme.spacing(1),
   },
   cardGrid: {
     paddingTop: theme.spacing(8),
@@ -59,90 +50,92 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const cards = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+const fetcher = url => fetch(url).then(r => r.json())
 
-export default function Album() {
+export default function ListNews() {
   const classes = useStyles();
+
+  const [page, setPage] = useState(7);
+
+  const { data, error } = useSWR(`http://localhost:3000/news?page=${page}`, fetcher)
+
+  const isLoading = !data;
+
+  const listNews = !isLoading ? data.data : []
+
+  console.log(listNews)
+
+  const handleNext = () => setPage(page => page + 1);
+  const handleBack = () => setPage(page => page - 1);
 
   return (
     <React.Fragment>
       <CssBaseline />
       <AppBar position="relative">
         <Toolbar>
-          <CameraIcon className={classes.icon} />
           <Typography variant="h6" color="inherit" noWrap>
-            Album layout
+            Best Hacker News
           </Typography>
         </Toolbar>
       </AppBar>
       <main>
-        {/* Hero unit */}
-        <div className={classes.heroContent}>
-          <Container maxWidth="sm">
-            <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
-              Album layout
-            </Typography>
-            <Typography variant="h5" align="center" color="textSecondary" paragraph>
-              Something short and leading about the collection below—its contents, the creator, etc.
-              Make it short and sweet, but not too short so folks don&apos;t simply skip over it
-              entirely.
-            </Typography>
-            <div className={classes.heroButtons}>
-              <Grid container spacing={2} justifyContent="center">
-                <Grid item>
-                  <Button variant="contained" color="primary">
-                    Main call to action
-                  </Button>
-                </Grid>
-                <Grid item>
-                  <Button variant="outlined" color="primary">
-                    Secondary action
-                  </Button>
-                </Grid>
-              </Grid>
-            </div>
-          </Container>
-        </div>
+        {error && <div>Failed to load</div>}
+        {isLoading && <div className={classes.loading}><CircularProgress /></div>}
         <Container className={classes.cardGrid} maxWidth="md">
-          {/* End hero unit */}
           <Grid container spacing={4}>
-            {cards.map((card) => (
-              <Grid item key={card} xs={12} sm={6} md={4}>
+            {listNews.map((news) => (
+              <Grid item key={news.url} xs={12} sm={6} md={3}>
                 <Card className={classes.card}>
                   <CardMedia
                     className={classes.cardMedia}
-                    image="https://source.unsplash.com/random"
-                    title="Image title"
+                    image={news.cover_image_url}
+                    isMediaComponent
+                    src={news.cover_image_url}
                   />
                   <CardContent className={classes.cardContent}>
-                    <Typography gutterBottom variant="h5" component="h2">
-                      Heading
+                    <Typography gutterBottom variant="h6" component="h2">
+                      {news.title}
                     </Typography>
-                    <Typography>
-                      This is a media card. You can use this section to describe the content.
+                    <Typography gutterBottom variant="caption" component="h2">
+                      {news.sub_title}
+                    </Typography>
+                    <Typography variant="body2" component="h2">
+                      {news.description}
                     </Typography>
                   </CardContent>
                   <CardActions>
                     <Button size="small" color="primary">
                       View
                     </Button>
-                    <Button size="small" color="primary">
-                      Edit
-                    </Button>
                   </CardActions>
                 </Card>
               </Grid>
             ))}
           </Grid>
+          <div className={classes.heroButtons}>
+            <Grid container spacing={4} justifyContent="center">
+              <Grid item>
+                {page > 1 && (
+                  <Button variant="outlined" color="primary" onClick={handleBack}>
+                    Back
+                  </Button>
+                )}
+              </Grid>
+              {listNews.length > 0 && (
+                <Grid item>
+                  <Button variant="contained" color="primary" onClick={handleNext}>
+                    Next
+                  </Button>
+                </Grid>
+              )}
+            </Grid>
+          </div>
         </Container>
       </main>
       {/* Footer */}
       <footer className={classes.footer}>
-        <Typography variant="h6" align="center" gutterBottom>
-          Footer
-        </Typography>
         <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
-          Something here to give the footer a purpose!
+          Best News from Hacker News
         </Typography>
         <Copyright />
       </footer>
