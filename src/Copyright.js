@@ -6,11 +6,10 @@ export default function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
+      {new Date().getFullYear()}
       <MuiLink color="inherit" href="https://material-ui.com/">
         Thanh Huynh
       </MuiLink>{' '}
-      {new Date().getFullYear()}
-      {'.'}
     </Typography>
   );
 }
