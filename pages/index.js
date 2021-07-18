@@ -13,7 +13,7 @@ import Container from '@material-ui/core/Container';
 import Link from '@material-ui/core/Link';
 import Copyright from '../src/Copyright';
 import Loading from '../src/Loading';
-import fetcher from '../lib/fetcher';
+import { fetcher } from '../lib/fetcher';
 
 const useStyles = makeStyles((theme) => ({
   heroButtons: {
@@ -62,8 +62,6 @@ export default function ListNews() {
 
   const handleNext = () => setPage(page => page + 1);
   const handleBack = () => setPage(page => page - 1);
-
-
 
   return (
     <React.Fragment>

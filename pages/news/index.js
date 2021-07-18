@@ -9,8 +9,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Link from '@material-ui/core/Link';
 import Loading from '../../src/Loading';
-
-import fetcher from '../../lib/fetcher';
+import { fetcher } from '../../lib/fetcher';
 
 const useStyles = makeStyles((theme) => ({
   image: {
