@@ -54,7 +54,7 @@ export default function ListNews() {
 
   const [page, setPage] = useState(1);
 
-  const { data, error } = useSWR(`http://localhost:3000/news?page=${page}`, fetcher)
+  const { data, error } = useSWR(`${process.env.NEXT_PUBLIC_API_URL}?page=${page}`, fetcher)
 
   const isLoading = !data;
 

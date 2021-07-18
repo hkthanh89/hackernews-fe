@@ -29,7 +29,7 @@ export default function News() {
   const router = useRouter()
   const { url } = router.query
 
-  const { data, error } = useSWR(url ? `http://localhost:3000/news?url=${url}` : null, fetcher)
+  const { data, error } = useSWR(url ? `${process.env.NEXT_PUBLIC_API_URL}?url=${url}` : null, fetcher)
 
   const isLoading = !data;
 
