@@ -36,11 +36,6 @@ export default function News() {
 
   const news = !isLoading ? data.data : {}
 
-  console.log('data', data)
-  console.log('error', error)
-
-  console.log(news)
-
   return (
     <React.Fragment>
       <main>
