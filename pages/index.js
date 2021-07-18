@@ -23,8 +23,8 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 'bold',
   },
   cardGrid: {
-    paddingTop: theme.spacing(8),
-    paddingBottom: theme.spacing(8),
+    paddingTop: theme.spacing(2),
+    paddingBottom: theme.spacing(2),
   },
   card: {
     height: '100%',
