@@ -29,6 +29,9 @@ const useStyles = makeStyles((theme) => ({
   heroButtons: {
     marginTop: theme.spacing(1),
   },
+  title: {
+    fontWeight: 'bold',
+  },
   cardGrid: {
     paddingTop: theme.spacing(8),
     paddingBottom: theme.spacing(8),
@@ -55,15 +58,13 @@ const fetcher = url => fetch(url).then(r => r.json())
 export default function ListNews() {
   const classes = useStyles();
 
-  const [page, setPage] = useState(7);
+  const [page, setPage] = useState(1);
 
   const { data, error } = useSWR(`http://localhost:3000/news?page=${page}`, fetcher)
 
   const isLoading = !data;
 
   const listNews = !isLoading ? data.data : []
-
-  console.log(listNews)
 
   const handleNext = () => setPage(page => page + 1);
   const handleBack = () => setPage(page => page - 1);
@@ -93,10 +94,10 @@ export default function ListNews() {
                     src={news.cover_image_url}
                   />
                   <CardContent className={classes.cardContent}>
-                    <Typography gutterBottom variant="h6" component="h2">
+                    <Typography gutterBottom variant="body1" component="h2" className={classes.title}>
                       {news.title}
                     </Typography>
-                    <Typography gutterBottom variant="caption" component="h2">
+                    <Typography gutterBottom variant="caption" component="h2" align="right">
                       {news.sub_title}
                     </Typography>
                     <Typography variant="body2" component="h2">
