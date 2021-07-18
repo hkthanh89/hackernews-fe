@@ -7,7 +7,7 @@ import ImageList from '@material-ui/core/ImageList';
 import ImageListItem from '@material-ui/core/ImageListItem';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import Link from '@material-ui/core/Link';
+import Link from 'next/link';
 import Loading from '../../src/Loading';
 import { fetcher } from '../../lib/fetcher';
 
@@ -47,11 +47,11 @@ export default function News() {
           <div dangerouslySetInnerHTML={{ __html: news.content }} />
         </Container>
         <Container maxWidth="md" className={classes.buttonContainer}>
-          <Button variant="outlined" color="primary">
-            <Link href="/" underline="none">
+          <Link href="/">
+            <Button variant="outlined" color="primary">
               Back
-            </Link>
-          </Button>
+            </Button>
+          </Link>
         </Container>
       </main>
     </React.Fragment>

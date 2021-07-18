@@ -10,7 +10,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import Link from '@material-ui/core/Link';
+import Link from 'next/link';
 import Copyright from '../src/Copyright';
 import Loading from '../src/Loading';
 import { fetcher } from '../lib/fetcher';
@@ -21,6 +21,9 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     fontWeight: 'bold',
+  },
+  newsLink: {
+    textDecoration: 'none',
   },
   cardGrid: {
     paddingTop: theme.spacing(2),
@@ -72,24 +75,26 @@ export default function ListNews() {
           <Grid container spacing={4}>
             {listNews.map((news) => (
               <Grid item key={news.url} xs={12} sm={6} md={3}>
-                <Link href={`/news?url=${news.url}`} underline="none">
-                  <Card className={classes.card}>
-                    <CardMedia
-                      className={classes.cardMedia}
-                      image={news.cover_image_url}
-                    />
-                    <CardContent className={classes.cardContent}>
-                      <Typography gutterBottom variant="body1" component="h2" className={classes.title}>
-                        {news.title}
-                      </Typography>
-                      <Typography gutterBottom variant="caption" component="h2" align="right">
-                        {news.sub_title}
-                      </Typography>
-                      <Typography variant="body2" component="h2">
-                        {news.description}
-                      </Typography>
-                    </CardContent>
-                  </Card>
+                <Link href={`/news?url=${news.url}`}>
+                  <a className={classes.newsLink}>
+                    <Card className={classes.card}>
+                      <CardMedia
+                        className={classes.cardMedia}
+                        image={news.cover_image_url}
+                      />
+                      <CardContent className={classes.cardContent}>
+                        <Typography gutterBottom variant="body1" component="h2" className={classes.title}>
+                          {news.title}
+                        </Typography>
+                        <Typography gutterBottom variant="caption" component="h2" align="right">
+                          {news.sub_title}
+                        </Typography>
+                        <Typography variant="body2" component="h2">
+                          {news.description}
+                        </Typography>
+                      </CardContent>
+                    </Card>
+                  </a>
                 </Link>
               </Grid>
             ))}
