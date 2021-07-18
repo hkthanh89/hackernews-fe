@@ -37,6 +37,12 @@ const useStyles = makeStyles((theme) => ({
   cardContent: {
     flexGrow: 1,
   },
+  error: {
+    textAlign: 'center',
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(2),
+    color: 'red',
+  },
   footer: {
     backgroundColor: theme.palette.background.paper,
     padding: theme.spacing(6),
@@ -57,10 +63,12 @@ export default function ListNews() {
   const handleNext = () => setPage(page => page + 1);
   const handleBack = () => setPage(page => page - 1);
 
+
+
   return (
     <React.Fragment>
       <main>
-        {error && <div>Failed to load</div>}
+        {error && <div className={classes.error}>Failed to load</div>}
         <Loading isLoading={isLoading} />
         <Container className={classes.cardGrid} maxWidth="md">
           <Grid container spacing={4}>
