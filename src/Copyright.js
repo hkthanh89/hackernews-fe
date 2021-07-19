@@ -7,9 +7,10 @@ export default function Copyright() {
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
       {new Date().getFullYear()}
-      <MuiLink color="inherit" href="https://material-ui.com/">
+      {' '}
+      <MuiLink color="inherit" href="https://thanhhuynh.vercel.app/">
         Thanh Huynh
-      </MuiLink>{' '}
+      </MuiLink>
     </Typography>
   );
 }
