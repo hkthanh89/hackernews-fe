@@ -15,6 +15,8 @@ import Copyright from '../src/Copyright';
 import Loading from '../src/Loading';
 import { fetcher } from '../lib/fetcher';
 
+import News from './news';
+
 const useStyles = makeStyles((theme) => ({
   heroButtons: {
     marginTop: theme.spacing(1),
@@ -52,81 +54,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ListNews() {
-  const classes = useStyles();
-
-  const [page, setPage] = useState(1);
-
-  const { data, error } = useSWR(`${process.env.NEXT_PUBLIC_API_URL}?page=${page}`, fetcher)
-
-  const isLoading = !data;
-
-  const listNews = !isLoading ? data.data : []
-
-  const handleNext = () => setPage(page => page + 1);
-  const handleBack = () => setPage(page => page - 1);
-
+export default function HomePage() {
   return (
     <React.Fragment>
-      <main>
-        {error && <div className={classes.error}>Failed to load</div>}
-        <Loading isLoading={isLoading} />
-        <Container className={classes.cardGrid} maxWidth="md">
-          <Grid container spacing={4}>
-            {listNews.map((news) => (
-              <Grid item key={news.url} xs={12} sm={6} md={3}>
-                <Link href={`/news?url=${news.url}`}>
-                  <a className={classes.newsLink}>
-                    <Card className={classes.card}>
-                      <CardMedia
-                        className={classes.cardMedia}
-                        image={news.cover_image_url}
-                      />
-                      <CardContent className={classes.cardContent}>
-                        <Typography gutterBottom variant="body1" component="h2" className={classes.title}>
-                          {news.title}
-                        </Typography>
-                        <Typography gutterBottom variant="caption" component="h2" align="right">
-                          {news.sub_title}
-                        </Typography>
-                        <Typography variant="body2" component="h2">
-                          {news.description}
-                        </Typography>
-                      </CardContent>
-                    </Card>
-                  </a>
-                </Link>
-              </Grid>
-            ))}
-          </Grid>
-          <div className={classes.heroButtons}>
-            <Grid container spacing={4} justifyContent="center">
-              <Grid item>
-                {page > 1 && (
-                  <Button variant="outlined" color="primary" onClick={handleBack}>
-                    Back
-                  </Button>
-                )}
-              </Grid>
-              {listNews.length > 0 && (
-                <Grid item>
-                  <Button variant="contained" color="primary" onClick={handleNext}>
-                    Next
-                  </Button>
-                </Grid>
-              )}
-            </Grid>
-          </div>
-        </Container>
-      </main>
-      {/* Footer */}
-      <footer className={classes.footer}>
-        <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
-          Best News from Hacker News
-        </Typography>
-        <Copyright />
-      </footer>
-      {/* End footer */}
+      <News />
     </React.Fragment>
   );
 }
